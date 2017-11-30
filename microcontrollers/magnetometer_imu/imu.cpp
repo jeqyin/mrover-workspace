@@ -131,15 +131,15 @@ void Imu::read() {
     this->gyro_.z = gyro_z * GYRO_SENSITIVITY_1000DPS;
 }
 
-Vector3f Imu::accelerometer() const {
+Math::Vector3f Imu::accelerometer() const {
     return this->accel_;
 }
 
-Vector3f Imu::magnetometer() const {
+Math::Vector3f Imu::magnetometer() const {
     return this->mag_;
 }
 
-Vector3f Imu::gyroscope() const {
+Math::Vector3f Imu::gyroscope() const {
     return this->gyro_;
 }
 

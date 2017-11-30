@@ -1,12 +1,7 @@
 #pragma once
 
 #include "mbed.h"
-
-struct Vector3f {
-    float x;
-    float y;
-    float z;
-};
+#include "math_3d.hpp"
 
 class Imu {
     public:
@@ -18,9 +13,9 @@ class Imu {
 
         void read();
 
-        Vector3f accelerometer() const;
-        Vector3f magnetometer() const;
-        Vector3f gyroscope() const;
+        Math::Vector3f accelerometer() const;
+        Math::Vector3f magnetometer() const;
+        Math::Vector3f gyroscope() const;
 
     private:
         // Address and self-reported ID of accelerometer/magnetometer
@@ -87,9 +82,9 @@ class Imu {
 
         I2C i2c_;
 
-        Vector3f accel_;
-        Vector3f mag_;
-        Vector3f gyro_;
+        Math::Vector3f accel_;
+        Math::Vector3f mag_;
+        Math::Vector3f gyro_;
 
         bool valid_;
         bool check_valid_;
