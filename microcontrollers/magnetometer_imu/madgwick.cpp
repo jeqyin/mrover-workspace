@@ -1,35 +1,6 @@
 #include <math.h>
 #include "madgwick.hpp"
 
-// "Fast Inverse Square Root" from Wikipedia
-static float invsqrt(float x) {
-    float xhalf = 0.5f * x;
-    union {
-        float x;
-        int i;
-    } u;
-    u.x = x;
-    u.i = 0x5f3759df - (u.i >> 1);
-    // The next line can be repeated any number of times to increase accuracy
-    u.x = u.x * (1.5f - xhalf * u.x * u.x);
-    return u.x;
-}
-
-static inline void normalize_vec(Math::Vector3f &v) {
-    float recip_norm = invsqrt(v.x*v.x + v.y*v.y + v.z*v.z);
-    v.x *= recip_norm;
-    v.y *= recip_norm;
-    v.z *= recip_norm;
-}
-
-static inline void normalize_quat(Math::Quaternion &q) {
-    float recip_norm = invsqrt(q.q0*q.q0 + q.q1*q.q1 + q.q2*q.q2 + q.q3*q.q3);
-    q.q0 *= recip_norm;
-    q.q1 *= recip_norm;
-    q.q2 *= recip_norm;
-    q.q3 *= recip_norm;
-}
-
 static inline void rotate_scale_vec(Math::Quaternion q, Math::Vector3f _2d, Math::Vector3f &r) {
     r.x = _2d.x * (0.5f - q.q2*q.q2 - q.q3*q.q3)
         + _2d.y * (q.q0*q.q3 + q.q1*q.q2)
@@ -107,6 +78,8 @@ Madgwick::Madgwick(float gain, float zeta) :
     gain_(gain),
     zeta_(zeta)
 {
+    memset(&this->quat_, 0, sizeof(this->quat_));
+    this->quat_.q0 = 1.0;
 }
 
 Math::Quaternion Madgwick::update(Math::Vector3f g, Math::Vector3f a, Math::Vector3f m, float dt) {
@@ -119,8 +92,8 @@ Math::Quaternion Madgwick::update(Math::Vector3f g, Math::Vector3f a, Math::Vect
     // TODO add magnetometer NaN handling
 
     if (!((a.x == 0.0f) && (a.y == 0.0f) && (a.z == 0.0f))) {
-        normalize_vec(a);
-        normalize_vec(m);
+        Math::normalize_vec(a);
+        Math::normalize_vec(m);
         compensate_magnetic_distortion(quat_, m, _2bxy, _2bz);
 
         memset(&s, 0, sizeof(s));
@@ -128,7 +101,7 @@ Math::Quaternion Madgwick::update(Math::Vector3f g, Math::Vector3f a, Math::Vect
         Math::Vector3f enu_2d_vec = {0.0f, _2bxy, _2bz};
         gradient_descent(quat_, enu_2d_vec, m, s);
 
-        normalize_quat(s);
+        Math::normalize_quat(s);
 
         compensate_gyro_drift(quat_, s, dt, zeta_, omega_, g);
         orientation_change_from_gyro(quat_, g, q_dot);
@@ -146,7 +119,7 @@ Math::Quaternion Madgwick::update(Math::Vector3f g, Math::Vector3f a, Math::Vect
     quat_.q2 += q_dot.q2 * dt;
     quat_.q3 += q_dot.q3 * dt;
 
-    normalize_quat(quat_);
+    Math::normalize_quat(quat_);
 
     return quat_;
 }

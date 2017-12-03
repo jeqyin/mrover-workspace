@@ -126,9 +126,9 @@ void Imu::read() {
     this->mag_.y = mag_y * MAG_UT_LSB;
     this->mag_.z = mag_z * MAG_UT_LSB;
 
-    this->gyro_.x = gyro_x * GYRO_SENSITIVITY_1000DPS;
-    this->gyro_.y = gyro_y * GYRO_SENSITIVITY_1000DPS;
-    this->gyro_.z = gyro_z * GYRO_SENSITIVITY_1000DPS;
+    this->gyro_.x = gyro_x * GYRO_SENSITIVITY_1000DPS * DPS_TO_RADS;
+    this->gyro_.y = gyro_y * GYRO_SENSITIVITY_1000DPS * DPS_TO_RADS;
+    this->gyro_.z = gyro_z * GYRO_SENSITIVITY_1000DPS * DPS_TO_RADS;
 }
 
 Math::Vector3f Imu::accelerometer() const {

@@ -20,5 +20,12 @@ namespace Math {
         float yaw;
     };
 
+    void normalize_vec(Vector3f &v);
+    void normalize_quat(Quaternion &q);
+
     Rot3f quat_to_rpy(Quaternion q);
+
+    Vector3f rotate_vec(Quaternion q, Vector3f v);
+    float dot(Vector3f u, Vector3f v);
+    Vector3f cross(Vector3f u, Vector3f v);
 }

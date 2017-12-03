@@ -70,6 +70,7 @@ class Imu {
         static const float MAG_UT_LSB = 0.1f;
         static const float GYRO_SENSITIVITY_1000DPS = 0.03125f;
         static const float GRAVITY_STANDARD = 9.80665f;
+        static const float DPS_TO_RADS = 0.017453293f;
 
         void write_am_reg(uint8_t reg, uint8_t value);
         uint8_t read_am_reg(uint8_t reg);
