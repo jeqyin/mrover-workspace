@@ -1,4 +1,5 @@
 #pragma once
+#define PERCEPTION_DEBUG
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "camera.hpp"
@@ -23,7 +24,7 @@
 #define SIMILARITY_THRESHOLD 8000
 
 #define PI 3.14159265
-#define FRAME_WAITKEY 0 // for cv::imshow
+#define FRAME_WAITKEY 2 // for cv::imshow
 
 const int RESOLUTION_WIDTH = 1280;
 const int RESOLUTION_HEIGHT = 720; // 720p

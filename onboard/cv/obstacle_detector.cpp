@@ -43,7 +43,7 @@ obstacle_return scan_middle(Mat & rgb_img, float center_point_depth,  int rover_
   if(middle_sum > THRESHOLD_NO_OBSTACLE_CENTER){
     if(check_divided_window(rgb_img, 4, mean_row_vec, center_start_col, center_start_col+rover_width-1)){
       #ifdef PERCEPTION_DEBUG
-      rectangle(rgb_img, Point( center_start_col, 0), Point( center_start_col+rover_width-1, RESOLUTION_HEIGHT), Scalar(0, 255, 0), 3);
+      rectangle(rgb_img, Point( center_start_col, SKY_START_ROW), Point( center_start_col+rover_width-1, RESOLUTION_HEIGHT), Scalar(0, 255, 0), 3);
       cout<<"No turn: center window sub_col sum is "<<middle_sum<<endl;
       #endif
       noTurn.bearing = 0;
@@ -104,7 +104,7 @@ obstacle_return refine_rt(obstacle_return rt_val, pair<int, float> candidate, Si
   if (max_sum_sw > THRESHOLD_NO_WAY) {
     #ifdef PERCEPTION_DEBUG
     cout<<"max_sum_sw "<<max_sum_sw<<", col start at "<<final_start_col<<endl;
-    rectangle(rgb_img, Point( final_start_col, 0), Point( final_start_col+rover_width, RESOLUTION_HEIGHT), Scalar(255, 0, 0), 3);
+    rectangle(rgb_img, Point( final_start_col, SKY_START_ROW), Point( final_start_col+rover_width, RESOLUTION_HEIGHT), Scalar(255, 0, 0), 3);
     #endif
 
     // compute bearing
@@ -180,7 +180,7 @@ obstacle_return avoid_obstacle_sliding_window(Mat &depth_img_src, Mat &rgb_img, 
   if (final_window.first == -1) {
     #ifdef PERCEPTION_DEBUG
       cout<<"max_sum_sw "<<final_window.second<<" at center\n";
-      rectangle(rgb_img, Point( size.width / 2 - rover_width/2, 0), Point( size.width/2 + rover_width/2, RESOLUTION_HEIGHT), Scalar(0, 0, 255), 3);
+      rectangle(rgb_img, Point( size.width / 2 - rover_width/2, SKY_START_ROW), Point( size.width/2 + rover_width/2, RESOLUTION_HEIGHT), Scalar(255, 0, 0), 3);
     #endif
 
     last_center = RESOLUTION_WIDTH/2;

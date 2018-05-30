@@ -31,7 +31,7 @@ bool cam_grab_succeed(Camera &cam, int & counter_fail) {
     cerr << "grab failed once\n";
     counter_fail++;
     usleep(1000);
-    if (counter_fail > 1000000) {
+    if (counter_fail > 1000) {
       cerr<<"camera failed\n";
       return false;
     }
@@ -165,6 +165,7 @@ int main() {
         }
     #endif
     j++;
+    usleep(1000);
   }
 
   return 0;
