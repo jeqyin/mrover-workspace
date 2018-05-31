@@ -37,8 +37,8 @@ Mat greenFilter(const Mat& src){
 
     Mat greenOnly;
     // 36 170 80
-    Scalar lowerb = Scalar(36, 170, 80);
-    Scalar upperb = Scalar(43, 226, 196);
+    Scalar lowerb = Scalar(35, 140, 80);//(36, 170, 80);
+    Scalar upperb = Scalar(55, 226, 220);//43, 226, 196);
     inRange(src, lowerb, upperb, greenOnly);
 
     return greenOnly;

@@ -103,7 +103,7 @@ int main() {
           Mat depth_img = cam.depth();
 
     // write to disk if permitted
-    //write_curr_frame_to_disk(src, depth_img, j );
+    write_curr_frame_to_disk(src, depth_img, j );
 
     /*initialize obstacle detection*/
     float pixelWidth = src.cols;
@@ -127,8 +127,10 @@ int main() {
 
     /* Tennis ball detection*/
     vector<Point2f> centers = findTennisBall(src, depth_img);
+    patchNaNs(depth_img, 6.0);
     if(centers.size() != 0){
       float dist = depth_img.at<float>(centers[0].y, centers[0].x);
+      if(dist < .5) dist = 0;
       if (dist < BALL_DETECTION_MAX_DIST) {
         tennisMessage.distance = dist;
         tennisMessage.bearing = getAngle((int)centers[0].x, src.cols);
