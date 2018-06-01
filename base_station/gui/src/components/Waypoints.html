@@ -178,7 +178,7 @@
     oncreate() {
       const app = this;
       window.setInterval(() => {
-          if(app.get('auton_enabled') && app.get('nav_state')==='Done'){
+          if(app.get('auton_enabled') && app.get('nav_state')==='DONE'){
             app.set({
               auton_enabled: false
             });
