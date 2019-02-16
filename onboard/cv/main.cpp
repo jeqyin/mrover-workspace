@@ -17,7 +17,6 @@ float getGroundDist(float angleOffset){  // the expected distance if no obstacle
     return zedHeight/sin(angleOffset);
 }
 
-
 double getAngle(float xPixel, float wPixel){
     return atan((xPixel - wPixel/2)/(wPixel/2)* tan(fieldofView/2))* 180.0 /PI;
 }
@@ -28,7 +27,6 @@ float getObstacleMin(float expected){
 
 bool cam_grab_succeed(Camera &cam, int & counter_fail) {
   while (!cam.grab()) {
-    //cerr << "grab failed once\n"; 
     counter_fail++;
     usleep(1000);
     if (counter_fail > 1000000) {
@@ -36,7 +34,6 @@ bool cam_grab_succeed(Camera &cam, int & counter_fail) {
       return false;
     }
   }
-
   counter_fail = 0;
   return true;
 }
@@ -56,7 +53,6 @@ void disk_record_init() {
       exit(1);
     }
   }
-
 }
 
 void write_curr_frame_to_disk(Mat &rgb, Mat & depth, int counter ) {
@@ -67,15 +63,14 @@ void write_curr_frame_to_disk(Mat &rgb, Mat & depth, int counter ) {
 }
 
 int main() {
-
   /*initialize camera*/
   Camera cam;
   int j = 0;
   double frame_time = 0;
   int counter_fail = 0;
   #ifdef PERCEPTION_DEBUG
-    namedWindow("image",1);
-    namedWindow("depth",2);
+    namedWindow("image", 1);
+    namedWindow("depth", 2);
   #endif
   disk_record_init();
 
@@ -87,7 +82,6 @@ int main() {
   obstacleMessage.detected = false;
 
   int tennisBuffer = 0;
-
   
   while (true) {
     if (!cam_grab_succeed(cam, counter_fail)) break;
