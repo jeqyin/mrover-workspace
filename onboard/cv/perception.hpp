@@ -1,3 +1,6 @@
+#ifndef PERCEPTION_H
+#define PERCEPTION_H
+
 #pragma once
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -9,12 +12,17 @@
 #include <lcm/lcm-cpp.hpp>
 #include <vector>
 #include <sys/stat.h> // for disk writing
+
+// #include <mutex>
+// #include <shared_mutex>
+// #include <thread>
+
 #if PERCEPTION_DEBUG
   #include <opencv2/highgui/highgui.hpp>
   #include <cstdlib>
 #endif
 
-#define ZED_SDK_PRESENT false
+#define ZED_SDK_PRESENT true
 #define PERCEPTION_DEBUG true
 
 #define THRESHOLD_NO_WAY  100000 //how will we calibrate if the rover width changes
@@ -33,6 +41,24 @@ const float inf = -std::numeric_limits<float>::infinity();
 #else
   const int FRAME_WAITKEY = 0;
 #endif
+
+// struct Frame{
+//   cv::Mat color; 
+//   cv::Mat depth;
+// };
+
+// //shared data
+// Frame frame;
+// std::shared_timed_mutex frame_lock;
+
+// Frame frameTennisball;
+// std::shared_timed_mutex frameTennisball_lock;
+
+// Frame frameObstacle;
+// std::shared_timed_mutex frameObstacle_lock;
+
+// lcm::LCM lcm_;
+// std::shared_timed_mutex lcm_lock;
 
 //Zed Specs
 const int RESOLUTION_WIDTH = 1280;
@@ -62,3 +88,5 @@ const std::string DEFAULT_ONLINE_DATA_FOLDER("/home/jessica/auton_data/");
 //functions
 std::vector<cv::Point2f> findTennisBall(cv::Mat &src, cv::Mat &depth_src);
 obstacle_return avoid_obstacle_sliding_window(cv::Mat &depth_img, cv::Mat &rgb_img, int num_windows, int rover_width);
+
+#endif

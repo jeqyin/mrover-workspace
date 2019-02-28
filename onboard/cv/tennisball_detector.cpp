@@ -59,9 +59,9 @@ vector<Point2f> findTennisBall(Mat &src, Mat & depth_src){
     mouse_data * m_d = & m_data;
     m_d->hsv = &hsv;
     m_d->depth = &depth_src;
-    imshow("hsv", hsv);
+    // imshow("hsv", hsv);
     setMouseCallback("image", onMouse, (void *)m_d);    
-    imshow("mask", mask);
+    // imshow("mask", mask);
     #endif
 
     // smoothing

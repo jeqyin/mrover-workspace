@@ -92,7 +92,7 @@ public:
   cv::Mat depth();
 private:
   std::vector<std::string> img_names;
-  int idx_curr_img;
+  unsigned idx_curr_img;
 
   std::string path;
   std::string rgb_path;
@@ -107,22 +107,25 @@ Camera::Impl::~Impl() {
 }
 
 Camera::Impl::Impl() {
-  std::cout<<"Please input the folder path (there should be a rgb and depth existing in this folder): ";
-  std::cin>>path;
-  rgb_path = path + "/rgb";
-  depth_path = path + "/depth";
-  rgb_dir = opendir(rgb_path.c_str() );
-  depth_dir = opendir(depth_path.c_str() );
-  if ( NULL==rgb_dir || NULL==depth_dir ) {
-    std::cerr<<"Input folder not exist\n";    
-    return;
+  while(true){
+    std::cout<<"Please input the folder path (there should be a rgb and depth existing in this folder): ";
+    std::cin>>path;
+    rgb_path = path + "/rgb";
+    depth_path = path + "/depth";
+    rgb_dir = opendir(rgb_path.c_str() );
+    depth_dir = opendir(depth_path.c_str() );
+    if ( NULL==rgb_dir || NULL==depth_dir ) {
+      std::cerr<<"Input folder not exist\n";    
+    }else{
+      break;
+    }
   }
 
   // get the vector of image names, jpg/png for rgb files, .exr for depth files
   // we only read the rgb folder, and assume that the depth folder's images have the same name
   struct dirent *dp = NULL;
   std::unordered_set<std::string> img_tails({".exr", ".jpg"}); // for rgb
-  int img_tail_str_len = 4;
+  // int img_tail_str_len = 4;
   std::cout<<"Read image names\n";
   do {
     errno = 0;
